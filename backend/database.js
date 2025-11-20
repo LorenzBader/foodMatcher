@@ -3,11 +3,8 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 class Database {
     constructor() {
-        const uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PW}@localhost:27017/foodMatcherDB`
-        if (!uri) {
-            throw new Error('MONGODB_URI env var missing');
-        }
-        // Keep a modest pool size
+        const uri = process.env.DB_URL || `mongodb://${process.env.DB_USER}:${process.env.DB_PW}@localhost:27017/foodMatcherDB`
+
         this.client = new MongoClient(uri, { maxPoolSize: 10 });
         this.dbName = uri.split('/').pop().split('?')[0] || 'foodMatcherDB';
         this.db = null;
