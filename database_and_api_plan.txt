@@ -1,0 +1,74 @@
+The DB stores objects of the format { id, mail (string) , username (string), pw (hashed string) } in the collection user and
+objects of the format { id, title (string), duration (string), description (string), link (string / url), reference to user (ref), active (boolean) } in the collection recipes and
+a {id, date (date), a list with references to useres (list of ref), a list of key-value-pairs (list of (ref to recipe and double)) } 
+
+
+Explanation of methods:
+connect():
+	Establishes a connection to the MongoDB database using the provided URL.
+addUser(user):
+	Inserts a new user document into the 'user' collection.
+getUserByMail(mail):
+	Retrieves a user document by their email from the 'user' collection.
+getUserByUsername(username):
+	Retrieves a user document by their username from the 'user' collection.
+getUserByMailAndPw(mail, pw):
+	Retrieves a user document by their email and password from the 'user' collection.
+updateUserByMail(mail, newData):
+	Updates a user document identified by their email with new data.
+updateUserByUsername(username, newData):
+	Updates a user document identified by their username with new data.
+getAllUsers():
+	Retrieves all user documents from the 'user' collection.
+addRecipe(recipe):
+	Inserts a new recipe document into the 'recipes' collection.
+getRecipeByTitle(title):
+	Retrieves a recipe document by its title from the 'recipes' collection.
+getRecipesByContributor(username):
+	Retrieves all recipe documents contributed by a user from the 'recipes' collection.
+getUsersByVotingDate(votingDate):
+	Retrieves all users who participated in a voting session.
+addUserToVoting(votingDate, user):
+	Adds a user to the list of participants in a voting session.
+addRecipeToVoting(votingDate, recipeTitle):
+	Adds a recipe to the voting session with an initial vote count of 0.
+getAllVotings():
+	Retrieves all voting sessions.
+updateRecipeVoteCount(votingDate, title, newCount):
+	Updates the voteCount(mean) of a recipe in a vote
+deactivateRecipeByTitle(title):
+	Sets the 'active' flag of a recipe to false, effectively deactivating it.
+getAllRecipes():
+	Retrieves all recipe documents from the 'recipes' collection.
+getActiveRecipes():
+	Retrieves all active recipe documents.
+updateRecipeByTitle(title, newData):
+	Updates a recipe document identified by its title with new data.
+getUserById(id):
+	Retrieves a user document by its ObjectId.
+getRecipeById(id):
+	Retrieves a recipe document by its ObjectId.
+getVoteById(id):
+	Retrieves a voting document by its ObjectId.
+deleteRecipeById(id):
+	Deletes a recipe document from the 'recipes' collection based on its ObjectId. The method uses MongoDB's deleteOne() function with a filter specifying 	the recipe's ObjectId. It returns the number of documents deleted.
+deleteRecipeByTitle(title):
+	Deletes a recipe document from the 'recipes' collection based on its title. The method uses MongoDB's deleteOne() function with a filter specifying the 	recipe's title. It returns the number of documents deleted.
+
+API Endpoints:
+"POST /api/users/login" -> Login endpoint
+"POST /api/users/register" -> Registration endpoint
+"PUT /api/users/update" -> Update user endpoint
+"GET /api/users/all" -> Get all users endpoint
+"GET /api/users/:email" -> Get a specific user by email endpoint
+"GET /api/users/:username" -> Get a specific user by username endpoint
+"GET /api/recipes/all" -> Gets all recipes endpoint
+"GET /api/recipes/:title" -> Gets a specific recipe by title endpoint
+"POST /api/recipes/new" -> Add new Recipe endpoint
+"PUT /api/recipes/update" -> Update recipe endpoint
+"DELETE /api/recipes/delete" -> Deletes a recipe (deaktivate) endpoint
+"GET /api/votings/all" -> Gets all votings endpoint
+"GET /api/votings/:date" -> Gets a voting by date endpoint
+"GET /api/votings/:date/users" -> Gets all users that voted for a date endpoint
+"GET /api/votings/:date/recipes" -> Gets the key-value-pairs of recipes and mean value of a vote endpoint
+"PUT /api/votings/:date/:title/:mean" -> Update the mean of a recipe in a vote endpoint

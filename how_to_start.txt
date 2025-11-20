@@ -1,0 +1,5 @@
+I have written a script to start the project (start.js in backend). It sets all variables and credentials, builds the vue project, copies files and runs the server. 
+The credentials are written in plain text. I don't care if you have them (this user doesn't have admin privileges). 
+After downloading and unziping, run npm install in the frontend and backend folder.
+To start simply run npm run start in the backend folder.
+In vs-code it is possible to start the project by opening the package.json file in the backend and clicking on the debug button whicha appears above scripts tag.

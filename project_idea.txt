@@ -1,0 +1,16 @@
+Food matcher
+
+My idea is to implement a Web app which helps in the decision what to eat/cook in a day. 
+The users are able to manage a food pool with all the meals and recipes they have every cooked or would like to cook one day.
+Here users can submit new recipes.
+Then there is the voting segment, which takes 10 recipes of the food pool randomly everyday and lets the user order them from 
+most to least favourite.
+The Overview sub-page then displays the outcome of all votings and hopefully sets a middle ground on what to cook this day.
+Also, the votes of previous days can be accessed here again.
+The application should have registered users to show, who voted for what and who submitted which recipe.
+Furthermore, I would like to expand on my idea and implement some kind of friend system to start food votings only between
+A fixed set of friends and has more than one vote at a time, if there is enough time.
+Bi-directional communication could be used in a live update of the voting and the food-pool and later on in friend requests 
+and friend-votings.
+
+I would like to work on this project alone.
