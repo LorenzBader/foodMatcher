@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
 var router = express.Router();
 
 var usersRouter = require('./routes/users');
@@ -10,8 +11,8 @@ var apiRouter = require('./routes/api');
 var jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
-    console.error('FATAL ERROR: JWT_SECRET env var is not defined.');
-    process.exit(1); // Exit the process with an error code
+    console.error('FATAL ERROR: JWT_SECRET .env var is not defined.');
+    process.exit(1);
 }
 
 var app = express();
@@ -40,12 +41,10 @@ function verifyRequest(req) {
         jwt.verify(token, jwtSecret, (err, decoded) => {
             if (err) {
                 req.jwtVerifyError = true;
-                // Check if the error is because the JWT has expired
                 if (err.name === 'TokenExpiredError') {
-                    req.jwtExpired = true; // You can add this line to indicate specifically that the JWT expired
+                    req.jwtExpired = true;
                 }
             } else {
-                // console.log("JWT: ", decoded)
                 req.jwtPayload = decoded;
             }
         });
@@ -55,18 +54,27 @@ function verifyRequest(req) {
 }
 
 function verifyMiddleware(req, res, next) {
-  console.log(`Verify token on request to ${req.url}`)
-  verifyRequest(req)
-  if(!req.jwtProvided) {
-    console.log(`>>> Not authorized, no token provided`)
-  } else if(req.jwtProvided && !req.jwtVerifyError) {
-    console.log(`>>> Authorized`)
-  } else if(req.jwtProvided && req.jwtVerifyError && req.jwtExpired) {
-    console.log(`>>> Not authorized, token expired`)
-  } else {
-    console.log(`>>> Not authorized, error during token verification`)
-  }
-  next()
+    const publicPaths = ['/users/login', '/users/register'];
+
+    // If the current URL includes a public path, skip the token check
+    if (publicPaths.some(path => req.url.includes(path))) {
+        console.log(`Skipping auth for public route: ${req.url}`);
+        return next();
+    }
+
+    console.log(`Verify token on request to ${req.url}`)
+    verifyRequest(req)
+
+    if(!req.jwtProvided) {
+        console.log(`>>> Not authorized, no token provided`)
+    } else if(req.jwtProvided && !req.jwtVerifyError) {
+        console.log(`>>> Authorized`)
+    } else if(req.jwtProvided && req.jwtVerifyError && req.jwtExpired) {
+        console.log(`>>> Not authorized, token expired`)
+    } else {
+        console.log(`>>> Not authorized, error during token verification`)
+    }
+    next()
 }
 
 app.use(verifyMiddleware);
