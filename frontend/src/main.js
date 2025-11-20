@@ -4,6 +4,7 @@ import router from './router'
 import PrimeVue from 'primevue/config'
 import 'primevue/resources/themes/aura-light-teal/theme.css'
 import 'primeicons/primeicons.css'
+import Ripple from 'primevue/ripple';
 import ToastService from 'primevue/toastservice';
 
 

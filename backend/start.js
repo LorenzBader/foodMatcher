@@ -54,7 +54,7 @@ const start = async () => {
         await buildFrontend();
         console.log('Copying frontend build files...');
         await copyBuildFiles();
-        // Environment variables are now loaded from .env
+        // Environment variables are now loaded from ..env
         console.log('Starting server...');
         startServer();
         console.log('Server is running at http://localhost:3000/');

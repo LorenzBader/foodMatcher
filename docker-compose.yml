@@ -17,6 +17,7 @@ services:
     container_name: foodmatcher_backend
     ports:
       - "3000:3000"
+      - "3001:3001"
     # Load environment variables from the file
     env_file:
       - .env
