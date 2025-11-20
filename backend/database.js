@@ -3,7 +3,8 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 class Database {
     constructor() {
-        const uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PW}@localhost:27017/foodMatcherDB`
+        const uri = process.env.DB_URL || `mongodb://${process.env.DB_USER}:${process.env.DB_PW}@localhost:27017/foodMatcherDB`
+
         if (!uri) {
             throw new Error('MONGODB_URI env var missing');
         }
